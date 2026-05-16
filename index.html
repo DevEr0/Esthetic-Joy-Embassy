@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ПЭУ — Yerevan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Unbounded:wght@200;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #e8c4b0;
+    --deep-rose: #c07a6a;
+    --blush: #f2ddd4;
+    --stone: #b8a898;
+    --cream: #f5ede6;
+    --dark: #1a1210;
+    --wine: #5a1e2e;
+    --tuff: #d4a898;
+    --blue-accent: #2a4a6e;
+    --text: #2c1f1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 14px; height: 14px;
+    background: var(--deep-rose);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, background 0.3s;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--deep-rose);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.25s ease;
+    opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 2.5rem;
+    background: rgba(245, 237, 230, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(192, 122, 106, 0.15);
+  }
+  .nav-logo {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: 0.06em;
+    color: var(--wine);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    color: var(--text);
+    transition: color 0.3s;
+    text-transform: uppercase;
+    font-style: italic;
+  }
+  .nav-links a:hover { color: var(--deep-rose); }
+  .hamburger {
+    display: none;
+    flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 26px; height: 1.5px;
+    background: var(--wine); transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--cream);
+    z-index: 200;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 2.5rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.6rem; font-weight: 200;
+    text-decoration: none; color: var(--wine);
+    letter-spacing: 0.1em;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--deep-rose); }
+  .close-menu {
+    position: absolute; top: 1.5rem; right: 2rem;
+    background: none; border: none;
+    font-size: 2.2rem; color: var(--wine); cursor: pointer;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 2rem 4rem;
+    background: linear-gradient(160deg, #f5ede6 0%, #edd8ce 40%, #e5c9be 100%);
+  }
+  .hero-grain {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; opacity: 0.5;
+  }
+
+  /* PARALLAX PEACE SIGN */
+  .peace-container {
+    position: absolute;
+    inset: 0; pointer-events: none;
+    overflow: hidden;
+  }
+  .peace-wrap {
+    position: absolute;
+    will-change: transform;
+  }
+  .peace-wrap svg circle, .peace-wrap svg line {
+    stroke: var(--deep-rose);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .peace-1 { top: 8%; right: 5%; opacity: 0.18; }
+  .peace-2 { top: 55%; left: -3%; opacity: 0.12; }
+  .peace-3 { top: 30%; right: 30%; opacity: 0.08; }
+  .peace-4 { bottom: 10%; right: 15%; opacity: 0.14; }
+
+  /* Floating petals */
+  .petal {
+    position: absolute;
+    width: 8px; height: 14px;
+    border-radius: 50% 50% 50% 0;
+    background: var(--tuff);
+    opacity: 0;
+    animation: floatPetal linear infinite;
+    pointer-events: none;
+  }
+  @keyframes floatPetal {
+    0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-80vh) rotate(360deg) translateX(60px); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.65rem; font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--deep-rose);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.2s forwards ease;
+  }
+  .hero-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(4.5rem, 14vw, 11rem);
+    font-weight: 700;
+    line-height: 0.92;
+    color: var(--wine);
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 1s 0.4s forwards ease;
+    position: relative; z-index: 2;
+  }
+  .hero-title span {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(2.2rem, 6vw, 5rem);
+    color: var(--deep-rose);
+    letter-spacing: 0.05em;
+    margin-top: 0.2em;
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-style: italic;
+    color: var(--stone);
+    margin-top: 1.8rem;
+    letter-spacing: 0.04em;
+    max-width: 520px;
+    opacity: 0;
+    animation: fadeUp 1s 0.65s forwards ease;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    margin-top: 3rem;
+    padding: 1rem 2.6rem;
+    border: 1.5px solid var(--deep-rose);
+    color: var(--wine);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    transition: all 0.4s;
+    opacity: 0;
+    animation: fadeUp 1s 0.85s forwards ease;
+    background: transparent;
+    cursor: pointer;
+  }
+  .hero-cta:hover {
+    background: var(--deep-rose);
+    color: var(--cream);
+  }
+  .scroll-hint {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.55rem; letter-spacing: 0.25em;
+    color: var(--stone); text-transform: uppercase;
+    opacity: 0; animation: fadeUp 1s 1.2s forwards ease;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--deep-rose), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* DIVIDER */
+  .divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1.2rem;
+    padding: 3rem 2rem;
+    color: var(--deep-rose); font-size: 1.3rem;
+  }
+  .divider-line {
+    flex: 1; max-width: 200px;
+    height: 1px; background: linear-gradient(to right, transparent, var(--tuff));
+  }
+  .divider-line.rev { background: linear-gradient(to left, transparent, var(--tuff)); }
+
+  /* ABOUT */
+  .about {
+    padding: 5rem 2rem 6rem;
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    align-items: center;
+  }
+  .about-text h2 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 200;
+    color: var(--wine);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .about-text h2 em {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--deep-rose);
+    font-size: 1.3em;
+  }
+  .about-text p {
+    font-size: 1.15rem;
+    line-height: 1.85;
+    color: #5a4040;
+    margin-bottom: 1rem;
+  }
+  .about-badges {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    margin-top: 1.8rem;
+  }
+  .badge {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--tuff);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--deep-rose);
+    letter-spacing: 0.04em;
+  }
+  .about-visual {
+    position: relative;
+    aspect-ratio: 3/4;
+  }
+  .stone-block {
+    position: absolute;
+    border-radius: 4px;
+  }
+  .sb1 {
+    inset: 0;
+    background: linear-gradient(145deg, #3a0e1e 0%, #5a1e2e 50%, #2a0a14 100%);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .sb1::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='28' fill='none' stroke='%23e8c4b0' stroke-width='0.8' opacity='0.1'/%3E%3Cline x1='30' y1='2' x2='30' y2='58' stroke='%23e8c4b0' stroke-width='0.8' opacity='0.1'/%3E%3Cline x1='30' y1='2' x2='5.3' y2='44' stroke='%23e8c4b0' stroke-width='0.8' opacity='0.1'/%3E%3Cline x1='30' y1='2' x2='54.7' y2='44' stroke='%23e8c4b0' stroke-width='0.8' opacity='0.1'/%3E%3C/svg%3E");
+    background-size: 60px 60px;
+    opacity: 0.6;
+  }
+  .about-inner-text {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 2; padding: 2rem;
+  }
+  .about-inner-text .big-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(232,196,176,0.7), 0 0 60px rgba(192,122,106,0.5), 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .about-inner-text .big-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.95);
+    letter-spacing: 0.1em;
+    margin-top: 0.4rem;
+    text-shadow: 0 0 20px rgba(232,196,176,0.5), 0 1px 8px rgba(0,0,0,0.2);
+  }
+  .about-inner-text .divider-sm {
+    width: 40px; height: 1px;
+    background: rgba(232,196,176,0.6); margin: 1.5rem 0;
+    box-shadow: 0 0 8px rgba(232,196,176,0.4);
+  }
+  .about-inner-text .about-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.95);
+    text-align: center;
+    line-height: 1.6;
+    max-width: 200px;
+    text-shadow: 0 0 16px rgba(232,196,176,0.4), 0 1px 6px rgba(0,0,0,0.2);
+  }
+
+  /* MENU */
+  .menu-section {
+    background: var(--dark);
+    padding: 6rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .menu-section::before {
+    content: 'MENU';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(8rem, 20vw, 18rem);
+    font-weight: 700;
+    color: rgba(255,255,255,0.02);
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: -0.04em;
+  }
+  .menu-header {
+    text-align: center; margin-bottom: 4rem;
+  }
+  .menu-header h2 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 200;
+    color: var(--cream);
+    letter-spacing: 0.1em;
+  }
+  .menu-header p {
+    font-style: italic; color: var(--tuff);
+    margin-top: 0.8rem; font-size: 1.1rem;
+  }
+  .menu-tabs {
+    display: flex; justify-content: center;
+    gap: 0.5rem; flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .menu-tab {
+    padding: 0.55rem 1.4rem;
+    border: 1px solid rgba(232,196,176,0.25);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--stone);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .menu-tab:hover, .menu-tab.active {
+    background: var(--deep-rose);
+    border-color: var(--deep-rose);
+    color: var(--cream);
+  }
+  .menu-grid {
+    max-width: 1000px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+  .menu-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.3s;
+    border-radius: 6px;
+  }
+  .menu-item:hover { background: rgba(255,255,255,0.03); }
+  .item-left { flex: 1; }
+  .item-name {
+    font-size: 1.05rem; color: var(--blush);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+  }
+  .item-desc {
+    font-size: 0.82rem; color: var(--stone);
+    font-style: italic; margin-top: 0.2rem;
+    line-height: 1.5;
+  }
+  .item-price {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.75rem; font-weight: 400;
+    color: var(--deep-rose);
+    margin-left: 1rem;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+  .menu-category {
+    grid-column: 1 / -1;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--deep-rose);
+    padding: 2rem 1.2rem 0.5rem;
+    border-top: 1px solid rgba(192,122,106,0.2);
+    margin-top: 1rem;
+  }
+  .menu-category:first-child { border-top: none; margin-top: 0; }
+
+  /* VIBE / HOURS */
+  .vibe-section {
+    padding: 6rem 2rem;
+    background: var(--blush);
+    position: relative; overflow: hidden;
+  }
+  .vibe-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    align-items: start;
+  }
+  .vibe-text h2 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    font-weight: 200;
+    color: var(--wine);
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+  .vibe-text p {
+    font-size: 1.1rem; line-height: 1.85;
+    color: #5a4040; margin-bottom: 1rem;
+  }
+  .vibe-features {
+    display: flex; flex-direction: column; gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+  .vibe-feat {
+    display: flex; align-items: center; gap: 0.8rem;
+    font-size: 1.05rem; color: #5a3030;
+  }
+  .vibe-feat-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%; background: var(--deep-rose);
+    flex-shrink: 0;
+  }
+  .hours-card {
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 40px rgba(90,30,46,0.08);
+  }
+  .hours-card h3 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.25em;
+    color: var(--deep-rose); text-transform: uppercase;
+    margin-bottom: 1.8rem;
+  }
+  .hours-row {
+    display: flex; justify-content: space-between;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(192,122,106,0.15);
+    font-size: 1.05rem;
+  }
+  .hours-row:last-child { border-bottom: none; }
+  .hours-day { color: var(--text); font-weight: 400; }
+  .hours-time { color: var(--deep-rose); font-style: italic; }
+  .hours-note {
+    margin-top: 1.5rem;
+    padding: 1rem 1.2rem;
+    background: linear-gradient(135deg, rgba(192,122,106,0.08), rgba(90,30,46,0.05));
+    border-radius: 8px;
+    border-left: 2px solid var(--deep-rose);
+    font-style: italic; font-size: 0.9rem;
+    color: var(--stone); line-height: 1.6;
+  }
+
+  /* LOCATION */
+  .location-section {
+    padding: 6rem 2rem;
+    background: var(--cream);
+  }
+  .location-inner {
+    max-width: 1100px; margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.65rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--deep-rose);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 200; color: var(--wine);
+    margin-bottom: 3rem; line-height: 1.2;
+  }
+  .location-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+  }
+  .map-placeholder {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #d4a898 0%, #c07a6a 100%);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 1rem;
+    position: relative; overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s ease;
+  }
+  .map-placeholder:hover { transform: scale(1.02); }
+  .map-placeholder::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 5 L75 75 L5 75 Z' fill='none' stroke='%23f5ede6' stroke-width='0.5' opacity='0.1'/%3E%3Ccircle cx='40' cy='40' r='35' fill='none' stroke='%23f5ede6' stroke-width='0.5' opacity='0.1'/%3E%3C/svg%3E");
+    background-size: 80px;
+    opacity: 0.5;
+  }
+  .map-icon { font-size: 3rem; z-index: 1; }
+  .map-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.3rem;
+    color: rgba(245,237,230,0.9); z-index: 1;
+  }
+  .map-sub {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    color: rgba(245,237,230,0.6); z-index: 1;
+    text-transform: uppercase;
+  }
+  .contact-details {
+    display: flex; flex-direction: column; gap: 1.5rem;
+  }
+  .contact-item h4 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.6rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--deep-rose);
+    margin-bottom: 0.5rem;
+  }
+  .contact-item p, .contact-item a {
+    font-size: 1.2rem; color: var(--text);
+    font-style: italic; text-decoration: none;
+    transition: color 0.3s;
+    line-height: 1.5;
+  }
+  .contact-item a:hover { color: var(--deep-rose); }
+  .socials {
+    display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;
+  }
+  .social-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    border: 1.5px solid var(--tuff);
+    border-radius: 999px;
+    text-decoration: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1rem;
+    color: var(--wine);
+    transition: all 0.3s;
+  }
+  .social-btn:hover {
+    background: var(--wine); border-color: var(--wine); color: var(--cream);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 700; font-size: 2.5rem;
+    color: var(--cream); letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .footer-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.05rem;
+    color: var(--stone); margin-bottom: 2rem;
+  }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 1.5rem;
+    font-size: 0.78rem; color: rgba(255,255,255,0.25);
+    letter-spacing: 0.06em;
+    font-family: 'Unbounded', sans-serif; font-weight: 200;
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* =====================
+     IMAGE SLOTS
+  ===================== */
+  .img-slot {
+    width: 100%; border-radius: 12px;
+    overflow: hidden; position: relative;
+    background: linear-gradient(135deg, var(--tuff), var(--deep-rose));
+    aspect-ratio: 16/10;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .img-slot img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    position: absolute; inset: 0;
+  }
+  .img-slot-label {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    color: rgba(245,237,230,0.5);
+    text-transform: uppercase;
+    text-align: center;
+    padding: 1rem;
+    z-index: 1;
+    /* Replace this element with <img src="your-photo.jpg" alt="..."> */
+  }
+  /* Gallery strip between about & menu */
+  .gallery-strip {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 0.8rem;
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+  .gallery-strip .img-slot:first-child { aspect-ratio: 4/3; }
+  .gallery-strip .img-slot:not(:first-child) { aspect-ratio: 3/4; }
+
+  /* =====================
+     THEME TOGGLE BUTTON
+  ===================== */
+  .theme-toggle {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    z-index: 500;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid var(--tuff);
+    background: var(--cream);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    transition: all 0.4s ease;
+  }
+  .theme-toggle:hover { transform: scale(1.1); }
+
+  /* =====================
+     DARK THEME
+  ===================== */
+  body.dark-mode {
+    --cream: #0e0b0a;
+    --blush: #141010;
+    --text: #e8d8d0;
+    --wine: #e8c4b0;
+    --tuff: #3a2828;
+    --stone: #8a7070;
+    --deep-rose: #c07a6a;
+    --dark: #080504;
+  }
+  body.dark-mode nav {
+    background: rgba(14,11,10,0.9);
+    border-bottom-color: rgba(192,122,106,0.12);
+  }
+  body.dark-mode .hero {
+    background: linear-gradient(160deg, #0e0b0a 0%, #150f0e 40%, #1a1210 100%);
+  }
+  body.dark-mode .about { /* about section bg inherits body */ }
+  body.dark-mode .vibe-section { background: #110d0c; }
+  body.dark-mode .hours-card {
+    background: #1a1210;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+  }
+  body.dark-mode .hours-day { color: var(--text); }
+  body.dark-mode .location-section { background: #0e0b0a; }
+  body.dark-mode .section-title { color: var(--wine); }
+  body.dark-mode .about-text p { color: #a89090; }
+  body.dark-mode .vibe-text p { color: #a89090; }
+  body.dark-mode .vibe-text h2 { color: var(--wine); }
+  body.dark-mode .contact-item p,
+  body.dark-mode .contact-item a { color: var(--text); }
+  body.dark-mode .social-btn { color: var(--text); border-color: #3a2828; }
+  body.dark-mode .social-btn:hover { background: var(--deep-rose); border-color: var(--deep-rose); color: #fff; }
+  body.dark-mode .mobile-menu { background: #0e0b0a; }
+  body.dark-mode .mobile-menu a { color: var(--wine); }
+  body.dark-mode .hamburger span { background: var(--wine); }
+  body.dark-mode .theme-toggle {
+    background: #1a1210;
+    border-color: #3a2828;
+  }
+  body.dark-mode .cursor { background: #e8c4b0; mix-blend-mode: normal; }
+  body.dark-mode .cursor-ring { border-color: #e8c4b0; }
+  body.dark-mode .badge { border-color: #3a2828; color: var(--deep-rose); }
+  body.dark-mode .sb1 {
+    background: linear-gradient(135deg, #2a1a18, #1a0f0e);
+  }
+  body.dark-mode .gallery-strip .img-slot {
+    background: linear-gradient(135deg, #2a1a18, #1a0f0e);
+  }
+  /* Menu text must stay light in dark mode since menu bg is always dark */
+  body.dark-mode .menu-header h2 { color: #f0e0d8; }
+  body.dark-mode .menu-header p { color: var(--stone); }
+  body.dark-mode .item-name { color: #f0e0d8; }
+  body.dark-mode .item-desc { color: #8a7070; }
+  body.dark-mode .menu-tab { color: #8a7070; }
+  body.dark-mode .menu-category { color: var(--deep-rose); }
+
+  /* PEACE SIGN GLOW — dark mode */
+  body.dark-mode .peace-wrap svg circle,
+  body.dark-mode .peace-wrap svg line {
+    stroke: #c080ff;
+  }
+  body.dark-mode .peace-1,
+  body.dark-mode .peace-2,
+  body.dark-mode .peace-3,
+  body.dark-mode .peace-4 {
+    animation: peaceGlow 3s ease-in-out infinite;
+  }
+  body.dark-mode .peace-2 { animation-delay: 0.7s; }
+  body.dark-mode .peace-3 { animation-delay: 1.4s; }
+  body.dark-mode .peace-4 { animation-delay: 2.1s; }
+
+  @keyframes peaceGlow {
+    0%   { opacity: 0.05; filter: drop-shadow(0 0 0px #b06aff); }
+    40%  { opacity: 0.85; filter: drop-shadow(0 0 18px #b06aff) drop-shadow(0 0 40px #7020d0); }
+    60%  { opacity: 0.85; filter: drop-shadow(0 0 18px #b06aff) drop-shadow(0 0 40px #7020d0); }
+    100% { opacity: 0.05; filter: drop-shadow(0 0 0px #b06aff); }
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .gallery-strip { grid-template-columns: 1fr 1fr; padding: 0 1.2rem 3rem; }
+    .gallery-strip .img-slot:first-child { grid-column: 1 / -1; aspect-ratio: 16/9; }
+    .gallery-strip .img-slot:not(:first-child) { aspect-ratio: 1/1; }
+    .theme-toggle { bottom: 1.2rem; right: 1.2rem; width: 42px; height: 42px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .about { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-visual { aspect-ratio: 16/9; max-height: 280px; }
+    .vibe-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .location-grid { grid-template-columns: 1fr; }
+    .menu-grid { grid-template-columns: 1fr; }
+    nav { padding: 1.2rem 1.5rem; }
+    .hero { padding: 5rem 1.5rem 3rem; }
+    .menu-section { padding: 4rem 1rem; }
+    .vibe-section, .location-section { padding: 4rem 1.2rem; }
+  }
+  @media (max-width: 480px) {
+    .hero-cta { padding: 0.85rem 1.8rem; font-size: 1rem; }
+    .menu-tab { padding: 0.45rem 0.9rem; font-size: 0.88rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SVG filter for purple glow -->
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <filter id="glow-purple" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- THEME TOGGLE -->
+<button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">ПЭУ</a>
+  <ul class="nav-links">
+    <li><a href="#about">Our Story</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#vibe">Vibe</a></li>
+    <li><a href="#location">Find Us</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-menu" id="closeMenu">×</button>
+  <a href="#about" onclick="closeMobile()">Our Story</a>
+  <a href="#menu" onclick="closeMobile()">Menu</a>
+  <a href="#vibe" onclick="closeMobile()">Vibe</a>
+  <a href="#location" onclick="closeMobile()">Find Us</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-grain"></div>
+  <div class="peace-container" id="peaceContainer">
+    <!-- Peace signs -->
+    <div class="peace-wrap peace-1" data-speed="0.3">
+      <svg width="220" height="220" viewBox="0 0 220 220"><circle cx="110" cy="110" r="100" fill="none"/><line x1="110" y1="10" x2="110" y2="110"/><line x1="110" y1="110" x2="110" y2="210"/><line x1="110" y1="110" x2="22" y2="188"/><line x1="110" y1="110" x2="198" y2="188"/></svg>
+    </div>
+    <div class="peace-wrap peace-2" data-speed="0.5">
+      <svg width="300" height="300" viewBox="0 0 300 300"><circle cx="150" cy="150" r="135" fill="none"/><line x1="150" y1="15" x2="150" y2="150"/><line x1="150" y1="150" x2="150" y2="285"/><line x1="150" y1="150" x2="33" y2="253"/><line x1="150" y1="150" x2="267" y2="253"/></svg>
+    </div>
+    <div class="peace-wrap peace-3" data-speed="0.18">
+      <svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="55" fill="none"/><line x1="60" y1="5" x2="60" y2="60"/><line x1="60" y1="60" x2="60" y2="115"/><line x1="60" y1="60" x2="12" y2="103"/><line x1="60" y1="60" x2="108" y2="103"/></svg>
+    </div>
+    <div class="peace-wrap peace-4" data-speed="0.4">
+      <svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="80" r="72" fill="none"/><line x1="80" y1="8" x2="80" y2="80"/><line x1="80" y1="80" x2="80" y2="152"/><line x1="80" y1="80" x2="18" y2="134"/><line x1="80" y1="80" x2="142" y2="134"/></svg>
+    </div>
+  </div>
+
+  <!-- Petals -->
+  <div id="petals"></div>
+
+  <div class="hero-eyebrow">Sarmen St. 72 — Yerevan, Armenia</div>
+  <h1 class="hero-title">
+    ПЭУ
+    <span>Pink City's Soul</span>
+  </h1>
+  <p class="hero-sub">A cultured bar & kitchen in a two-story mansion enveloped in wild grapevines. Drink, eat, dance, exist.</p>
+  <a href="#menu" class="hero-cta">Explore the menu →</a>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about reveal">
+  <div class="about-text">
+    <h2>An <em>embassy</em> for the curious</h2>
+    <p>Tucked inside a historic two-story mansion on Sarmen Street, ПЭУ is Yerevan's warmest creative refuge. Wild grapevines wrap the walls. Daisy-shaped tabletops dot the courtyard. Pink tuff stone, marble, and glazed ceramics create a tactile backdrop that's unmistakably Armenian.</p>
+    <p>Multiple zones — an ambient bar on the first floor, a wine bar on the veranda, the main bar upstairs, and a billiards room — mean the energy shifts room to room. The garden breathes in summer. The lighting stays golden all year.</p>
+    <div class="about-badges">
+      <span class="badge">Pet-friendly</span>
+      <span class="badge">Live & DJ sets</span>
+      <span class="badge">Billiards room</span>
+      <span class="badge">Garden terrace</span>
+      <span class="badge">3 bars in one</span>
+      <span class="badge">Work-friendly days</span>
+    </div>
+  </div>
+  <div class="about-visual">
+    <div class="sb1">
+      <div class="about-inner-text">
+        <div class="big-num">72</div>
+        <div class="big-label">Sarmen Street</div>
+        <div class="divider-sm"></div>
+        <div class="about-quote">"aesthetic without being pretentious, warm, photogenic"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">
+  <div class="divider-line"></div>
+  <svg width="20" height="20" viewBox="0 0 20 20" style="opacity:0.5"><circle cx="10" cy="10" r="9" fill="none" stroke="var(--deep-rose)" stroke-width="1.2"/><line x1="10" y1="1" x2="10" y2="19" stroke="var(--deep-rose)" stroke-width="1.2"/><line x1="10" y1="10" x2="2.3" y2="17" stroke="var(--deep-rose)" stroke-width="1.2"/><line x1="10" y1="10" x2="17.7" y2="17" stroke="var(--deep-rose)" stroke-width="1.2"/></svg>
+  <div class="divider-line rev"></div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     IMAGE GALLERY STRIP
+     Replace each .img-slot-label with:
+     <img src="your-photo.jpg" alt="description">
+     ════════════════════════════════════════════ -->
+<div class="gallery-strip reveal">
+  <!-- SLOT 1: Large hero photo — e.g. courtyard / garden shot -->
+  <div class="img-slot">
+    <!-- <img src="images/courtyard.jpg" alt="ПЭУ courtyard"> -->
+    <div class="img-slot-label">📸 courtyard.jpg<br><span style="opacity:0.4;font-size:0.85em">replace with img tag</span></div>
+  </div>
+  <!-- SLOT 2: Interior / bar detail shot -->
+  <div class="img-slot">
+    <!-- <img src="images/bar-detail.jpg" alt="ПЭУ bar"> -->
+    <div class="img-slot-label">📸 bar-detail.jpg</div>
+  </div>
+  <!-- SLOT 3: Food or cocktail shot -->
+  <div class="img-slot">
+    <!-- <img src="images/cocktail.jpg" alt="Signature cocktail"> -->
+    <div class="img-slot-label">📸 cocktail.jpg</div>
+  </div>
+</div>
+
+<!-- MENU -->
+<section id="menu" class="menu-section">
+  <div class="menu-header reveal">
+    <h2>The Menu</h2>
+    <p>From morning filter to last call negroni</p>
+  </div>
+  <div class="menu-tabs reveal" id="menuTabs">
+    <button class="menu-tab active" data-cat="cocktails">Cocktails</button>
+    <button class="menu-tab" data-cat="drinks">Drinks</button>
+    <button class="menu-tab" data-cat="spirits">Spirits</button>
+    <button class="menu-tab" data-cat="food">Food</button>
+    <button class="menu-tab" data-cat="desserts">Desserts</button>
+  </div>
+  <div class="menu-grid reveal" id="menuGrid"></div>
+</section>
+
+<!-- VIBE -->
+<section id="vibe" class="vibe-section">
+  <div class="vibe-inner">
+    <div class="vibe-text reveal">
+      <h2>The vibe, by floor</h2>
+      <p>ПЭУ was never meant to be just one thing. The mood rises as you climb. Start slow, end dancing — or stay in the garden all night.</p>
+      <div class="vibe-features">
+        <div class="vibe-feat"><div class="vibe-feat-dot"></div>Ground floor: ambient bar, soft lighting, ceramic tiles, slow drinks</div>
+        <div class="vibe-feat"><div class="vibe-feat-dot"></div>Veranda: wine bar, orchard views, natural light, linen & stone</div>
+        <div class="vibe-feat"><div class="vibe-feat-dot"></div>First floor: main bar, DJ booth, full energy, signature cocktails</div>
+        <div class="vibe-feat"><div class="vibe-feat-dot"></div>Garden: courtyard, daisy tables, grapevines, fireflies in summer</div>
+        <div class="vibe-feat"><div class="vibe-feat-dot"></div>Billiards room: when you want a game with your whisky</div>
+      </div>
+      <!-- SLOT 4: Vibe/atmosphere photo — e.g. evening crowd, live DJ -->
+      <div class="img-slot" style="margin-top:2rem;aspect-ratio:16/9;">
+        <!-- <img src="images/atmosphere.jpg" alt="Evening at ПЭУ"> -->
+        <div class="img-slot-label">📸 atmosphere.jpg<br><span style="opacity:0.4;font-size:0.85em">replace with img tag</span></div>
+      </div>
+    </div>
+    <div class="hours-card reveal">
+      <h3>Opening Hours</h3>
+      <div class="hours-row"><span class="hours-day">Monday – Thursday</span><span class="hours-time">16:00 – 02:00</span></div>
+      <div class="hours-row"><span class="hours-day">Friday</span><span class="hours-time">16:00 – 03:00</span></div>
+      <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">12:00 – 03:00</span></div>
+      <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time">12:00 – 02:00</span></div>
+      <div class="hours-note">
+        Weekend brunch starts at noon. The kitchen stays open late. Last orders 30 min before close.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location" class="location-section">
+  <div class="location-inner">
+    <div class="section-label">Find us</div>
+    <h2 class="section-title">Come as you are</h2>
+    <div class="location-grid">
+      <a href="https://maps.google.com/?q=Sarmen+Street+72+Yerevan" target="_blank" class="map-placeholder reveal">
+        <div class="map-icon">☮</div>
+        <div class="map-label">Sarmen St., 72</div>
+        <div class="map-sub">Open in Google Maps →</div>
+      </a>
+      <div class="contact-details reveal">
+        <div class="contact-item">
+          <h4>Address</h4>
+          <p>Sarmen Street, 72<br>Yerevan, Armenia</p>
+        </div>
+        <div class="contact-item">
+          <h4>Reservations & Enquiries</h4>
+          <a href="mailto:hello@peu.am">hello@peu.am</a>
+        </div>
+        <div class="contact-item">
+          <h4>Events & Private Hire</h4>
+          <a href="mailto:events@peu.am">events@peu.am</a>
+        </div>
+        <div class="socials">
+          <a href="https://instagram.com" target="_blank" class="social-btn">📷 Instagram</a>
+          <a href="https://t.me" target="_blank" class="social-btn">✈ Telegram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ПЭУ</div>
+  <div class="footer-sub">Sarmen St. 72, Yerevan — Peace & good company</div>
+  <div class="footer-bottom">© 2024 ПЭУ Bar & Kitchen · Yerevan, Armenia</div>
+</footer>
+
+<script>
+// DARK MODE TOGGLE
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('peu-theme');
+if (savedTheme === 'dark') { document.body.classList.add('dark-mode'); themeToggle.textContent = '☀️'; }
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
+  themeToggle.textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('peu-theme', isDark ? 'dark' : 'light');
+});
+
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.45; ry += (my - ry) * 0.45;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+// MOBILE MENU
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobileMenu').classList.add('open');
+});
+document.getElementById('closeMenu').addEventListener('click', () => {
+  document.getElementById('mobileMenu').classList.remove('open');
+});
+function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+// PEACE PARALLAX
+const peaceWraps = document.querySelectorAll('.peace-wrap[data-speed]');
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  peaceWraps.forEach(el => {
+    const speed = parseFloat(el.dataset.speed);
+    const dir = el.classList.contains('peace-2') ? 1 : -1;
+    el.style.transform = `translateY(${sy * speed * dir}px) rotate(${sy * speed * 0.05}deg)`;
+  });
+});
+
+// FLOATING PETALS
+const petalContainer = document.getElementById('petals');
+function spawnPetal() {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  const colors = ['#d4a898','#c07a6a','#e8c4b0','#b8a898'];
+  p.style.cssText = `
+    left: ${Math.random() * 100}%;
+    bottom: -20px;
+    width: ${5 + Math.random() * 7}px;
+    height: ${9 + Math.random() * 9}px;
+    background: ${colors[Math.floor(Math.random() * colors.length)]};
+    animation-duration: ${6 + Math.random() * 8}s;
+    animation-delay: ${Math.random() * 2}s;
+    transform: rotate(${Math.random() * 360}deg);
+    border-radius: ${Math.random() > 0.5 ? '50% 50% 50% 0' : '50%'};
+  `;
+  petalContainer.appendChild(p);
+  setTimeout(() => p.remove(), 16000);
+}
+setInterval(spawnPetal, 1200);
+
+// SCROLL REVEAL
+const revealEls = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+revealEls.forEach(el => obs.observe(el));
+
+// MENU DATA
+const menuData = {
+  cocktails: [
+    { cat: 'Signature Cocktails', items: [
+      { name: 'Negroni', desc: 'Gin / red vermouth / Italian bitter / grapefruit', price: '4000' },
+      { name: 'Manhattan', desc: 'Bourbon / red vermouth / bitter', price: '4000' },
+      { name: 'Old Fashioned', desc: 'Bourbon / Angostura / cane sugar / orange zest', price: '3500' },
+      { name: 'White Russian', desc: 'Vodka / coffee liqueur / cream', price: '4500' },
+      { name: 'Malfy Gin Tonic', desc: 'Malfy gin / Indian tonic / lime', price: '—' },
+      { name: 'Dutch Guilder', desc: 'Beefeater / cherry / sagan dayla / amaretto / citrus', price: '—' },
+      { name: 'Italian Lira', desc: 'Amaro / Bitter / citrus / EJE Tonic', price: '—' },
+      { name: 'Greek Drachma', desc: 'Olive oil–washed Beefeater / bergamot bitter / umeshu', price: '—' },
+      { name: 'Georgian Lari', desc: 'Ararat Cherry / citrus / pomegranate', price: '—' },
+      { name: 'Mexican Peso', desc: 'Tequila Olmeca / cordial kiwi / EJE Tonic / juice balls', price: '—' },
+      { name: 'Japanese Yen', desc: 'Malfy lemon / Ararat Honey / dry vermouth / lime-lemon soda / garam masala', price: '—' },
+      { name: 'French Franc', desc: 'Calvados / elderflower / pickled onions', price: '—' },
+      { name: 'Korean Won', desc: 'Beefeater / coconut / lichi / soju / jasmine', price: '—' },
+      { name: 'Swedish Krona', desc: 'Absolut / blueberry / peach / citrus / mint', price: '—' },
+      { name: 'Armenian Drama', desc: 'Rose & strawberry vermouth / sparkling wine / EJE Tonic', price: '3800' },
+    ]},
+    { cat: 'Classic Cocktails', items: [
+      { name: 'Gin Tonic', desc: 'Gin / homemade Indian tonic / lime', price: '3500' },
+      { name: 'Paper Plane', desc: 'Bourbon / amaro / Santoni bitter / lemon', price: '3500' },
+      { name: 'Bloody Mary', desc: 'Vodka / tomato / spicy mix / cilantro / svan salt / narsharab', price: '3500' },
+      { name: 'Basil Collins', desc: 'Gin / Armenian basil / lemon / sugar / Indian tonic', price: '3500' },
+      { name: 'Margarita', desc: 'Tequila / Cointreau / lime juice / svan salt', price: '4000' },
+      { name: 'Dry Martini', desc: 'Gin / dry vermouth / green olives', price: '4000' },
+      { name: 'French 75', desc: 'Gin / lemon / sugar / sparkling wine / lemon zest', price: '3500' },
+      { name: 'ПЭУ Spritz N1', desc: 'Sparkling wine / Indian tonic / Italian bitter / Armenian basil', price: '3600' },
+    ]}
+  ],
+  drinks: [
+    { cat: 'Coffee', items: [
+      { name: 'Espresso', desc: '', price: '1000' },
+      { name: 'Americano', desc: '', price: '1500' },
+      { name: 'Cappuccino', desc: '', price: '1400' },
+      { name: 'Latte', desc: '', price: '1500' },
+      { name: 'Flat White', desc: '', price: '1500' },
+      { name: 'Raf Coffee Vanilla', desc: '', price: '1000' },
+      { name: 'Filter Coffee', desc: '', price: '1200' },
+      { name: 'Espresso Raspberry Tonic', desc: '', price: '1500' },
+      { name: 'Ice Cream with Double Espresso', desc: '', price: '—' },
+    ]},
+    { cat: 'Tea & Soft Drinks', items: [
+      { name: 'Green / Black / Herbal / Tartary / Tie Guan Yin', desc: 'Loose leaf teas', price: '1600' },
+      { name: 'Matcha Latte', desc: '', price: '1800' },
+      { name: 'Matcha Tonic', desc: '', price: '1300' },
+      { name: 'Lemonade', desc: 'Lime / Cherry-Sagan / Raspberry', price: '1400' },
+      { name: 'Bureg / Jermuk / Coca-Cola', desc: '', price: '800' },
+    ]},
+    { cat: 'Beer', items: [
+      { name: 'Asahi Dry (bottle)', desc: '0.33l', price: '2000' },
+      { name: 'Dahook (bottle)', desc: '0.33l', price: '2000' },
+      { name: 'Dahook Red IPA', desc: '', price: '2000' },
+      { name: 'DADA Cider', desc: '0.5l', price: '2900' },
+      { name: 'Radler / Michelada', desc: '', price: '1500' },
+      { name: 'Dahook Hell / Weiss (draught)', desc: '0.4l', price: '1700' },
+    ]},
+    { cat: 'Wine', items: [
+      { name: 'Karas Sparkling', desc: '150ml', price: '2300' },
+      { name: 'DzorEm Experimento Petnat', desc: 'Sparkling', price: '2500' },
+      { name: 'KEF White', desc: '150ml', price: '2000' },
+      { name: 'Martiros Areni', desc: 'White', price: '2500' },
+      { name: 'TUS', desc: 'White', price: '2500' },
+      { name: 'Martiros Red', desc: '150ml', price: '2500' },
+      { name: 'KEF Red', desc: '150ml', price: '2000' },
+      { name: 'Rosemartiros Rosé', desc: '150ml', price: '2500' },
+    ]},
+  ],
+  spirits: [
+    { cat: 'Whisky', items: [
+      { name: 'Glenflivet 12 Y.O.', desc: '', price: '4900' },
+      { name: 'Aberlour 12 Y.O.', desc: '', price: '4900' },
+      { name: 'Chivas Regal 12 Y.O.', desc: '', price: '4500' },
+      { name: 'Four Roses', desc: '', price: '3500' },
+      { name: 'Jameson Stout Edition', desc: '', price: '3900' },
+      { name: 'Jameson', desc: '', price: '3200' },
+      { name: "Ballantine's Finest", desc: '', price: '3000' },
+    ]},
+    { cat: 'Gin', items: [
+      { name: 'Malfy', desc: '', price: '3500' },
+      { name: 'Lind & Lime', desc: '', price: '3500' },
+      { name: 'Beefeater', desc: '', price: '2500' },
+      { name: 'Ki No Bi', desc: '', price: '4500' },
+      { name: 'Monkey 47', desc: '', price: '4900' },
+    ]},
+    { cat: 'Tequila & Mezcal', items: [
+      { name: 'Olmeca Silver', desc: '', price: '3500' },
+      { name: 'Padrecito Blanco', desc: '', price: '3500' },
+      { name: 'Avion Silver', desc: '', price: '4900' },
+      { name: 'Se Busco Joven Mezcal', desc: '', price: '3600' },
+    ]},
+    { cat: 'Rum & Vodka', items: [
+      { name: 'Havana Club 3 Y.O.', desc: '', price: '3000' },
+      { name: 'Havana Club Spiced', desc: '', price: '2600' },
+      { name: 'Bumbu Original', desc: '', price: '3600' },
+      { name: 'Absolut', desc: '', price: '2200' },
+    ]},
+    { cat: 'Cognac & Brandy', items: [
+      { name: 'Ararat 5 Y.O.', desc: '', price: '2200' },
+      { name: 'Ararat Bourbon Cask', desc: '', price: '3200' },
+      { name: 'Ararat 10 Y.O.', desc: '', price: '3500' },
+      { name: 'Ararat Apricot / Cherry / Honey / Coffee', desc: '', price: '2400' },
+    ]},
+    { cat: 'Amaro & Liqueur', items: [
+      { name: 'Amaro Santoni', desc: '', price: '3000' },
+      { name: 'Carpano Classico', desc: '', price: '2500' },
+      { name: 'Branca Menta', desc: '', price: '2000' },
+      { name: 'Amaro Montenegro', desc: '', price: '2500' },
+    ]},
+  ],
+  food: [
+    { cat: 'Snacks & Starters', items: [
+      { name: 'Olives with Anchovy', desc: 'Pickled pepper / mountain greens / ciabatta / olive oil', price: '3400' },
+      { name: 'Mozzarella Sticks', desc: 'Sweet chili / Shichimi togarashi', price: '2900' },
+      { name: 'Steamed Edamame', desc: 'Sea salt / chili flakes', price: '1900' },
+      { name: 'Syrian Olives', desc: 'Black & green with lemon zest', price: '1600' },
+      { name: 'Homemade Ricotta', desc: 'Anchovies / mountain herbs / olive oil / ciabatta', price: '3900' },
+      { name: "Andrey's Spicy Ranch Duo", desc: 'Chicken jerky / chicken sausage jerky', price: '2400' },
+      { name: 'Sweet Potato Fries', desc: 'Parmigiano / truffle sauce', price: '2900' },
+      { name: 'French Fries', desc: 'Parmigiano / mint aioli', price: '2900' },
+    ]},
+    { cat: 'Mains & Salads', items: [
+      { name: 'Charred Romaine Salad', desc: 'Anchovy dressing / Parmesan / pickled cucumber / cashew / cilantro', price: '3900' },
+      { name: 'Caprese', desc: 'Mozzarella / tomatoes / pesto / fresh herbs', price: '3900' },
+      { name: 'Basic Salad', desc: 'Dressing of your choice', price: '1500' },
+      { name: 'French Onion Soup', desc: 'With Gruyère cheese', price: '2900' },
+      { name: 'Halibut Fish & Chips', desc: 'Tartar sauce / chimichurri / French fries', price: '4400' },
+      { name: 'Tempura Shrimp', desc: 'With mentaiko sauce', price: '4900' },
+      { name: 'Katsu Crispy Chicken', desc: 'Curry sauce / rice / pickled cucumber / cashew / cilantro', price: '4200' },
+      { name: 'Pork Ribs with Potato', desc: '', price: '4900' },
+    ]},
+    { cat: 'Pasta & Pizza', items: [
+      { name: 'Casarecce Arrabbiata', desc: 'With stracciatella', price: '3900' },
+      { name: 'Pappardelle', desc: 'Stewed beef / mushrooms / parmigiano sauce', price: '3900' },
+      { name: 'Margherita Pinsa', desc: '', price: '4900' },
+      { name: 'Pinsa with Mortadella & Stracciatella', desc: '', price: '6900' },
+      { name: 'Pinsa with Chorizo', desc: '', price: '5900' },
+    ]},
+    { cat: 'Sandwiches & Burgers', items: [
+      { name: 'Katsu Chicken Sandwich', desc: 'With pollock roe', price: '3900' },
+      { name: 'Beef Burger', desc: 'Local patty / chipotle hoisin / cheddar / onion jam / pickles / fries / truffle aioli', price: '4900' },
+    ]},
+    { cat: 'Sides', items: [
+      { name: 'French Fries', desc: '', price: '1700' },
+      { name: 'Steamed Jasmine Rice', desc: '', price: '1000' },
+      { name: 'Bread', desc: '', price: '500' },
+    ]},
+  ],
+  desserts: [
+    { cat: 'Desserts', items: [
+      { name: 'Doughnut', desc: 'Chocolate / vanilla / sweet cherry', price: '900' },
+      { name: 'Sweet Cherry Pie with Gelato', desc: '', price: '2900' },
+      { name: 'Brownie with Gelato', desc: '', price: '2900' },
+    ]},
+  ],
+};
+
+function renderMenu(cat) {
+  const grid = document.getElementById('menuGrid');
+  grid.innerHTML = '';
+  const sections = menuData[cat] || [];
+  sections.forEach(sec => {
+    const catDiv = document.createElement('div');
+    catDiv.className = 'menu-category'; catDiv.textContent = sec.cat;
+    grid.appendChild(catDiv);
+    sec.items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'menu-item';
+      div.innerHTML = `
+        <div class="item-left">
+          <div class="item-name">${item.name}</div>
+          ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
+        </div>
+        <div class="item-price">${item.price !== '—' ? item.price + '֏' : ''}</div>
+      `;
+      grid.appendChild(div);
+    });
+  });
+}
+
+document.getElementById('menuTabs').addEventListener('click', e => {
+  const btn = e.target.closest('.menu-tab');
+  if (!btn) return;
+  document.querySelectorAll('.menu-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenu(btn.dataset.cat);
+});
+renderMenu('cocktails');
+
+// TOUCH: disable custom cursor on mobile
+if ('ontouchstart' in window) {
+  document.querySelector('.cursor').style.display = 'none';
+  document.querySelector('.cursor-ring').style.display = 'none';
+  document.body.style.cursor = 'auto';
+}
+</script>
+</body>
+</html>
